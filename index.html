@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+    name="description" 
+    content="Easily compress many file types.">
+    <title>hello-wasm example</title>
+    <link rel="stylesheet" href="./static/style.css">
+  </head>
+  <body>
+    <label for="input">Choose a file: </label>
+    <input type="file" name="file" id="input">
+    <button id="compress">Compress</button>
+    <br>
+    <a href="" id="download-btn" hidden>Download Compressed File</a>
+
+    <script type="module">
+      let btn = document.getElementById('compress')
+      let file = document.getElementById('input')
+      let compressed;
+      import init, { snappy_compress, gzip_compress } from "./pkg/compress_it.js";
+      init()
+        .then(() => {
+          btn.addEventListener("click", () => {
+            if (file.files.length == 1)
+              file.files[0].arrayBuffer().then(buffer => {
+                compress_gzip(buffer);
+                // let arr = new Uint8Array(buffer);
+                // console.log(arr);
+                // let compressed = gzip_compress(file.files[0].name, arr);
+                // console.log(compressed)
+                // let blob = new Blob([compressed], {type: 'application/x-snappy-framed'});
+                // let url = URL.createObjectURL(blob)
+                // const link = document.getElementById('download-btn');
+                // link.href = url;
+                // link.download=file.files[0].name + '.sz'
+                // link.hidden = false
+              });
+            else
+              alert("Pleae choose a file.")
+          })
+        });
+
+        // function download(filename, data) {
+        //     var element = document.createElement('a');
+        //     element.setAttribute('href', 'data:application/octet-stream;base64,' + btoa(data));
+        //     element.setAttribute('download', filename);
+
+        //     element.style.display = 'none';
+        //     document.body.appendChild(element);
+
+        //     element.click();
+
+        //     document.body.removeChild(element);
+        // }
+
+      </script>
+  </body>
+</html>
