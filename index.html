@@ -27,7 +27,7 @@
             if (file.files.length == 1)
               file.files[0].arrayBuffer().then(buffer => {
                 console.log(buffer);
-                console.log(gzip_compress(file.files[0].name, buffer));
+                console.log(gzip_compress(buffer));
                 // let arr = new Uint8Array(buffer);
                 // console.log(arr);
                 // let compressed = gzip_compress(file.files[0].name, arr);
