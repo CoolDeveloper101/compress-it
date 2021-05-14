@@ -1,3 +1,4 @@
+use flate2::write::GzEncoder;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::throw_str;
 use snap::raw::{max_compress_len as _snappy_max_compress_length, decompress_len as _snappy_decompress_len};
@@ -68,15 +69,16 @@ pub fn snappy_decompress_len(input: &[u8]) -> usize {
 }
 
 #[wasm_bindgen]
-pub fn gzip_compress(filename: &str, input: &[u8]) -> Vec<u8> {
-    // let mut encoder = GzEncoder::new(Vec::new(), Compression::default());
-    // encoder.write_all(input).expect_throw("Could not compress the file!");
-    // encoder.finish().unwrap_throw()
-    let mut gz = GzBuilder::new()
-                .filename(filename)
-                .write(Vec::new(), Compression::default());
-    gz.write(input).expect_throw("Could not compress");
-    gz.finish().unwrap_throw()
+pub fn gzip_compress(input: &[u8]) -> Vec<u8> {
+    let mut encoder = GzEncoder::new(Vec::new(), Compression::default());
+    encoder.write_all(input).expect_throw("Could not compress the file!");
+    encoder.finish().unwrap_throw()
+    // let mut gz = GzBuilder::new()
+    //             .filename(filename)
+    //             .write(Vec::new(), Compression::default());
+    // gz.write(input).expect_throw("Could not compress");
+    // gz.finish().unwrap_throw()
+
 }
 
 
