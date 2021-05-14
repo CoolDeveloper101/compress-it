@@ -25,14 +25,14 @@ use std::io::prelude::*;
     
 // }
 
-// #[wasm_bindgen]
-// extern {
-//     #[wasm_bindgen(js_namespace = console, js_name = log)]
-//     fn log_str(s: &str);
+#[wasm_bindgen]
+extern {
+    #[wasm_bindgen(js_namespace = console, js_name = log)]
+    fn log_str(s: &str);
 
-//     #[wasm_bindgen(js_namespace = console, js_name = log)]
-//     fn log_uint8array(arr: &[u8]);
-// }
+    #[wasm_bindgen(js_namespace = console, js_name = log)]
+    fn log_uint8array(arr: &[u8]);
+}
 
 #[wasm_bindgen]
 pub fn snappy_compress(input: &[u8]) -> Vec<u8> {
@@ -70,6 +70,7 @@ pub fn snappy_decompress_len(input: &[u8]) -> usize {
 
 #[wasm_bindgen]
 pub fn gzip_compress(input: &[u8]) -> Vec<u8> {
+    // log_uint8array(input);
     let mut encoder = GzEncoder::new(Vec::new(), Compression::default());
     encoder.write_all(input).expect_throw("Could not compress the file!");
     encoder.finish().unwrap_throw()
